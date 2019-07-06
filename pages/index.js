@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Form, Button} from "react-bootstrap";
 import Header from '../components/header'
 
-export default class Login extends Component {
+export default class Index extends Component {
     constructor(props) {
         super(props);
 
@@ -38,7 +38,7 @@ export default class Login extends Component {
     render() {
         return (
             <div>
-                <Header title="Página Inicial"></Header>
+                <Header title="Página Inicial 12"></Header>
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>

@@ -1,22 +1,24 @@
-'use strict'
+const express = require('express');
+const router = express.Router();
 
-let express = require('express');
-let app = express();
+let multer  = require('multer');
+let upload = multer();
 
-app.post('/login', (request, response)=>{
+router.post('/login', upload.none(), (request, response)=>{
+    console.log(request.body);
     response.send(JSON.stringify(request.body))
 });
 
-app.get('/nome', (request, response)=>{
+router.get('/nome', (request, response)=>{
     response.send(JSON.stringify('teste'))
 });
 
-app.get('/endereco', (request, response)=>{
+router.get('/endereco', (request, response)=>{
     response.send(JSON.stringify('teste'))
 });
 
-app.get('/idade', (request, response)=>{
+router.get('/idade', (request, response)=>{
     response.send(JSON.stringify('teste'))
 });
 
-module.exports = app;
+module.exports = router;
