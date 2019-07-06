@@ -4,7 +4,7 @@ let express = require('express');
 let app = express();
 
 app.post('/login', (request, response)=>{
-    response.send(JSON.stringify('teste'))
+    response.send(JSON.stringify(request.body))
 });
 
 app.get('/nome', (request, response)=>{

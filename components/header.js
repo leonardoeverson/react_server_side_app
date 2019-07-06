@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Head from 'next/head'
 
 export default ({title}) => (
+    <div>
         <Head>
             <title>{title}</title>
             <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
@@ -15,14 +16,15 @@ export default ({title}) => (
             <script type="text/plain" src="https://unpkg.com/react/umd/react.production.js"/>
 
             <script type="text/plain"
-                src="https://unpkg.com/react-dom/umd/react-dom.production.js"
+                    src="https://unpkg.com/react-dom/umd/react-dom.production.js"
             />
 
             <script type="text/plain"
-                src="https://unpkg.com/react-bootstrap@next/dist/react-bootstrap.min.js"
+                    src="https://unpkg.com/react-bootstrap@next/dist/react-bootstrap.min.js"
             />
 
         </Head>
+    </div>
 );
 
 
