@@ -3,7 +3,19 @@
 let express = require('express');
 let app = express();
 
-app.get('/teste', (request, response)=>{
+app.post('/login', (request, response)=>{
+    response.send(JSON.stringify('teste'))
+});
+
+app.get('/nome', (request, response)=>{
+    response.send(JSON.stringify('teste'))
+});
+
+app.get('/endereco', (request, response)=>{
+    response.send(JSON.stringify('teste'))
+});
+
+app.get('/idade', (request, response)=>{
     response.send(JSON.stringify('teste'))
 });
 
