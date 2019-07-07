@@ -1,3 +1,5 @@
+const next = require('next');
+
 //Server Config
 const PORT = process.env.PORT || 3000;
 const dev = process.env.NODE_DEV !== 'production';

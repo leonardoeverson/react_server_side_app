@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {Form, Button} from "react-bootstrap";
-import Header from '../components/header'
+import Header from '../components/layout'
+import '../css/index.css'
 
 export default class Index extends Component {
     constructor(props) {
@@ -38,7 +39,7 @@ export default class Index extends Component {
     render() {
         return (
             <div>
-                <Header title="Página Inicial 12"></Header>
+                <Header title="Página Inicial"></Header>
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
@@ -56,7 +57,7 @@ export default class Index extends Component {
                         <Form.Check type="checkbox" label="Check me out"/>
                     </Form.Group>
                     <Button variant="primary" type="submit">
-                        Submit
+                        Entrar
                     </Button>
                 </Form>
 
