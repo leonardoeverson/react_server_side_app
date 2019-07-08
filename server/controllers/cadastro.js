@@ -11,7 +11,7 @@ module.exports.cadastro_usuario = (app, request, response) => {
 
     //Senhas
     bcrypt.genSalt(saltRounds, function(err, salt) {
-        bcrypt.hash(body.password, salt, function(err, hash) {
+        bcrypt.hash(body.password1, salt, function(err, hash) {
             // Store hash in your password DB.
             try{
                 let Usuario = new User({name: body.name, email: body.email, password: hash });

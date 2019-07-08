@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {Form, Button, Container, Col, Row} from "react-bootstrap";
-import Header from '../components/layout'
+import Header from '../components/layout';
+import Alerts from '../components/alerts';
 
 export default class Index extends Component {
     constructor(props) {
@@ -10,7 +11,8 @@ export default class Index extends Component {
             email: "",
             name:"",
             password1: "",
-            password2:""
+            password2:"",
+            show_alert:false
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -34,6 +36,21 @@ export default class Index extends Component {
                 method: 'post',
                 body: dados
             }
+        ).then((response)=>{
+                if(response.status === 200){
+                    this.setState({
+                        msg:"Cadastro Concluído com sucesso",
+                        variant:"success",
+                        show_alert:true
+                    })
+                }else{
+                    this.setState({
+                        msg:"Houve um erro ao realizar o cadastro",
+                        variant:"warning",
+                        show_alert:true
+                    })
+                }
+            }
         )
     };
 
@@ -42,6 +59,7 @@ export default class Index extends Component {
             <div>
                 <Header title="Página Inicial"></Header>
                 <Container>
+                    <Alerts msg={this.state.msg} variant={this.state.variant} show={this.state.show_alert}></Alerts>
                     <Row>
                         <Col sm={8}>
                             <Form onSubmit={this.handleSubmit}>
@@ -68,7 +86,6 @@ export default class Index extends Component {
                         </Col>
                     </Row>
                 </Container>
-
             </div>
         );
     }
