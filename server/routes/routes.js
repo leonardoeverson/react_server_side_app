@@ -1,6 +1,7 @@
 const express = require('express');
-const router = express.Router();
+const router = express();
 
+//For multipart/form-data
 let multer  = require('multer');
 let upload = multer();
 
@@ -9,15 +10,12 @@ router.post('/login', upload.none(), (request, response)=>{
     response.send(JSON.stringify(request.body))
 });
 
-router.get('/nome', (request, response)=>{
-    response.send(JSON.stringify('teste'))
+router.post('/cadastro', upload.none(), (request, response)=>{
+    const cadastro = require('../controllers/cadastro');
+    cadastro.cadastro_usuario(router, request, response);
 });
 
-router.get('/endereco', (request, response)=>{
-    response.send(JSON.stringify('teste'))
-});
-
-router.get('/idade', (request, response)=>{
+router.get('/dados', (request, response)=>{
     response.send(JSON.stringify('teste'))
 });
 

@@ -3,9 +3,13 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const app = express();
 const morgan = require('morgan');
+const helmet = require('helmet');
+
+//helmet
+app.use(helmet());
 
 //Morgan
-app.use(morgan('dev'))
+app.use(morgan('dev'));
 
 //Body Parser
 app.use(bodyParser.json());
@@ -19,6 +23,6 @@ app.use(session({
 }));
 
 //Rotas
-app.use(require('../routes/api'));
+app.use(require('../routes/routes'));
 
 module.exports = app;

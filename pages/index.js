@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Form, Button} from "react-bootstrap";
+import {Form, Button, Container, Row, Col} from "react-bootstrap";
 import Header from '../components/layout'
 import '../css/index.css'
 
@@ -29,8 +29,8 @@ export default class Index extends Component {
         event.preventDefault();
         let dados = new FormData(event.target);
 
-        fetch('/login',{
-                method:'post',
+        fetch('/login', {
+                method: 'post',
                 body: dados
             }
         )
@@ -40,27 +40,28 @@ export default class Index extends Component {
         return (
             <div>
                 <Header title="Página Inicial"></Header>
-                <Form onSubmit={this.handleSubmit}>
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Email address</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" name="email"/>
-                        <Form.Text className="text-muted">
-                            We'll never share your email with anyone else.
-                        </Form.Text>
-                    </Form.Group>
-
-                    <Form.Group controlId="formBasicPassword">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" name="password"/>
-                    </Form.Group>
-                    <Form.Group controlId="formBasicChecbox">
-                        <Form.Check type="checkbox" label="Check me out"/>
-                    </Form.Group>
-                    <Button variant="primary" type="submit">
-                        Entrar
-                    </Button>
-                </Form>
-
+                <Container>
+                    <Row>
+                        <Col sm={8}>
+                            <Form onSubmit={this.handleSubmit} className="Login">
+                                <Form.Group controlId="formBasicEmail">
+                                    <Form.Label>Email</Form.Label>
+                                    <Form.Control type="email" placeholder="Enter email" name="email"/>
+                                </Form.Group>
+                                <Form.Group controlId="formBasicPassword">
+                                    <Form.Label>Senha</Form.Label>
+                                    <Form.Control type="password" placeholder="Password" name="password"/>
+                                </Form.Group>
+                                <Form.Group controlId="formBasicChecbox">
+                                    <Form.Check type="checkbox" label="Lembra-me" name="remember"/>
+                                </Form.Group>
+                                <Button variant="primary" type="submit">
+                                    Entrar
+                                </Button>
+                            </Form>
+                        </Col>
+                    </Row>
+                </Container>
             </div>
         );
     }
