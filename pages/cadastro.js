@@ -60,12 +60,14 @@ export default class Index extends Component {
                 <Header title="Página Inicial"></Header>
                 <Container>
                     <Alerts msg={this.state.msg} variant={this.state.variant} show={this.state.show_alert}></Alerts>
-                    <Row>
+                    <Row className="row_cadastro">
                         <Col sm={8}>
+                            <h4>Formulário de Cadastro</h4>
+                            <hr/>
                             <Form onSubmit={this.handleSubmit}>
                                 <Form.Group controlId="formBasicEmail">
                                     <Form.Label>Nome</Form.Label>
-                                    <Form.Control type="text" placeholder="" name="nome"/>
+                                    <Form.Control type="text" placeholder="" name="name"/>
                                 </Form.Group>
                                 <Form.Group controlId="formBasicEmail">
                                     <Form.Label>Email</Form.Label>

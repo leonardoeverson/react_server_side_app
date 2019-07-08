@@ -14,18 +14,16 @@ export default class Alerts extends React.Component {
     handleDismiss = () => this.setState({show: false});
 
     render() {
-        if (this.state.show) {
+
             return (
-                <Alert variant={this.props.variant} onClose={this.handleDismiss} dismissible>
+                <Alert variant={this.props.variant} show={this.props.show} onClose={this.handleDismiss}>
                     <Alert.Heading>Mensagem</Alert.Heading>
                     <p>
                         {this.props.msg}
                     </p>
                 </Alert>
             )
-        };
 
-        return <></>
     }
 }
 

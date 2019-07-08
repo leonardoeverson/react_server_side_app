@@ -9,6 +9,17 @@ module.exports.cadastro_usuario = (app, request, response) => {
     //User Model
     let User = require('../models/cadastro');
 
+    //Verificar se o usuário existe
+    User.find({name:body.name},(err, docs)=>{
+        if(!err){
+            if(docs.length > 0){
+                response.status(500).json({'mensagem':'Já Existem um usuário com este e-mail'})
+            }
+        }else{
+            throw new Error(err)
+        }
+    });
+
     //Senhas
     bcrypt.genSalt(saltRounds, function(err, salt) {
         bcrypt.hash(body.password1, salt, function(err, hash) {
@@ -18,14 +29,14 @@ module.exports.cadastro_usuario = (app, request, response) => {
                 Usuario.save((err)=>{
                     if(err){
                         console.log(err);
-                        response.send(500)
+                        response.status(500).json({'mensagem':'Houve um erro ao realizar a operação'})
                     }
-                })
+                });
 
-                response.send(200)
+                response.status(200).json({'mensagem':'Cadastro realizado com sucesso'})
             }catch (e) {
-                console.log(e)
-                response.send(500)
+                console.log(e);
+                response.status(500).json({'mensagem':'Erro ao realizar a operação'})
             }
 
 
