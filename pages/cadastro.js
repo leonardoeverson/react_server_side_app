@@ -57,7 +57,7 @@ export default class Index extends Component {
     render() {
         return (
             <div>
-                <Header title="Página Inicial"></Header>
+                <Header title="Página de Cadastro"></Header>
                 <Container>
                     <Alerts msg={this.state.msg} variant={this.state.variant} show={this.state.show_alert}></Alerts>
                     <Row className="row_cadastro">

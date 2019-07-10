@@ -1,3 +1,8 @@
+//For multipart/form-data
+let multer  = require('multer');
+let upload = multer();
+
+//Next
 const next = require('next');
 
 //Server Config
@@ -8,10 +13,19 @@ const dev = process.env.NODE_DEV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
+
 app.prepare().then(() => {
 
     //Express
     const server = require('./config/express_config');
+
+    server.get('/start',(req, res)=>{
+        if(req.session.logged){
+            app.render(req, res, '/start', {})
+        }else{
+            res.redirect('/')
+        }
+    });
 
     server.get('*', (req,res) => {
         return handle(req,res)

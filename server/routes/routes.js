@@ -6,8 +6,8 @@ let multer  = require('multer');
 let upload = multer();
 
 router.post('/login', upload.none(), (request, response)=>{
-    console.log(request.body);
-    response.send(JSON.stringify(request.body))
+    const login = require('../controllers/login');
+    login.login_usuario(router, request, response);
 });
 
 router.post('/cadastro', upload.none(), (request, response)=>{

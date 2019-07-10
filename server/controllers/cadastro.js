@@ -39,6 +39,7 @@ module.exports.cadastro_usuario = (app, request, response) => {
             }
         }else{
             console.log(err)
+            response.status(500).json({error:'Erro ao realizar a operação'})
         }
     });
 

@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import {Form, Button, Container, Row, Col} from "react-bootstrap";
-import Header from '../components/layout'
-import '../css/index.css'
+import Header from '../components/layout';
+import Router from 'next/router';
+import '../css/index.css';
 
 export default class Index extends Component {
     constructor(props) {
@@ -33,13 +34,20 @@ export default class Index extends Component {
                 method: 'post',
                 body: dados
             }
+        ).then((response)=>{
+                if(response.status === 200){
+                    Router.push('/start')
+                }else{
+                    //Escrever Mensagem
+                }
+            }
         )
     };
 
     render() {
         return (
             <div>
-                <Header title="Página Inicial"></Header>
+                <Header title="Página de Login"></Header>
                 <Container>
                     <Row>
                         <Col sm={8}>

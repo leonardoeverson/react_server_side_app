@@ -1,7 +1,8 @@
-import React from 'react';
+import React,{Component} from 'react';
+import {Form, Button, Container, Row, Col} from "react-bootstrap";
 import Header from '../components/layout';
 
-export default class Start extends React.Component{
+export default class Start extends Component{
 
     constructor(props){
         super(props);
@@ -12,9 +13,10 @@ export default class Start extends React.Component{
     }
 
     render() {
-        <Header title={this.state.title}></Header>
         return(
-            <div></div>
+            <div>
+                <Header title={this.state.title}></Header>
+            </div>
         )
     }
 }
