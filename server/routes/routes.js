@@ -15,8 +15,9 @@ router.post('/cadastro', upload.none(), (request, response)=>{
     cadastro.cadastro_usuario(router, request, response);
 });
 
-router.get('/dados', (request, response)=>{
-    response.send(JSON.stringify('teste'))
-});
+router.post('/dados', upload.array(), (request, response)=>{
+    const dados = require('../controllers/dados');
+    dados.importa_dados(router, request, response);
+})
 
 module.exports = router;

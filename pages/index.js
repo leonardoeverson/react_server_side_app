@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Form, Button, Container, Row, Col} from "react-bootstrap";
-import Header from '../components/layout';
+import Layout from '../components/layout';
 import Router from 'next/router';
 import '../css/index.css';
 
@@ -47,7 +47,7 @@ export default class Index extends Component {
     render() {
         return (
             <div>
-                <Header title="Página de Login"></Header>
+                <Layout title="Página de Login"></Layout>
                 <Container>
                     <Row>
                         <Col sm={8}>
