@@ -1,7 +1,43 @@
-module.exports.importa_dados = (app, request, response)=>{
-    //Carrega modelo de dados
+module.exports.importa_dados = (app, request, response) => {
+    const multer = require('multer');
+    const dir = './uploads/';
+    let filename;
 
-    //Lê o arquivo csv
+    //Multer
+    const upload = multer({}).single('file');
 
-    //armazena dados no banco
+    upload(request, response, (err) => {
+        if (err) {
+            console.log(err)
+        } else {
+            //
+            const fs = require('fs');
+            const csv = require('csv-parser');
+
+            //Carrega modelo de dados
+            const dataPrice = require('../models/dadosPrecos')
+            
+            fs.writeFile(dir + request.file.originalname, request.file.buffer,(err, result)=>{
+                if(!err){
+                    console.log('ok');
+                }
+            })
+
+            //Lê o arquivo csv
+            // fs.createReadStream(request.file)
+            //     .pipe(csv())
+            //     .on('data', (data) => {
+            //         try {
+            //             //perform the operation
+            //             console.log(data)
+            //         }
+            //         catch (err) {
+            //             //error handler
+            //         }
+            //     })
+            //     .on('end', () => {
+            //         //some final operation
+            //     });
+        }
+    })
 }

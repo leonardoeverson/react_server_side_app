@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Form, Button, Container, Col, Row} from "react-bootstrap";
-import Header from '../components/layout';
+import Layout from '../components/layout';
 import Alerts from '../components/alerts';
 
 export default class Index extends Component {
@@ -57,7 +57,7 @@ export default class Index extends Component {
     render() {
         return (
             <div>
-                <Header title="Página de Cadastro"></Header>
+                <Layout title="Página de Cadastro"></Layout>
                 <Container>
                     <Alerts msg={this.state.msg} variant={this.state.variant} show={this.state.show_alert}></Alerts>
                     <Row className="row_cadastro">

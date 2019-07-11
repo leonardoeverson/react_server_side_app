@@ -14,8 +14,15 @@ export default class Import extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
-    handleSubmit() {
+    handleSubmit(event) {
+        
+        event.preventDefault();
+        let dados = new FormData(event.target);
 
+        fetch('/upload',{
+            method:'post',
+            body: dados
+        })
     }
 
 
@@ -25,10 +32,10 @@ export default class Import extends Component {
                 <Layout title={this.state.title}></Layout>
                 <Header></Header>
                 <Container>
-                    <Form>
+                    <Form onSubmit={this.handleSubmit}>
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>Arquivo para importação</Form.Label>
-                            <Form.Control type="file" placeholder="Enter email" />
+                            <Form.Control type="file" placeholder="Enter email" name="file"/>
                         </Form.Group>
                         <Button variant="primary" type="submit">
                             Submit

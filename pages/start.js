@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import {Layout, Header} from '../components/';
+import {Container, Row, Form} from 'react-bootstrap';
+import Layout from '../components/layout';
+import Header from '../components/Header'
 
 export default class Start extends Component {
 

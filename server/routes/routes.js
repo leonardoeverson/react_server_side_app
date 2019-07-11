@@ -2,8 +2,8 @@ const express = require('express');
 const router = express();
 
 //For multipart/form-data
-let multer  = require('multer');
-let upload = multer();
+const multer  = require('multer');
+const upload = multer();
 
 router.post('/login', upload.none(), (request, response)=>{
     const login = require('../controllers/login');
@@ -15,7 +15,7 @@ router.post('/cadastro', upload.none(), (request, response)=>{
     cadastro.cadastro_usuario(router, request, response);
 });
 
-router.post('/dados', upload.array(), (request, response)=>{
+router.post('/upload', (request, response)=>{
     const dados = require('../controllers/dados');
     dados.importa_dados(router, request, response);
 })
