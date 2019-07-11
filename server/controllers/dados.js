@@ -1,28 +1,33 @@
 module.exports.importa_dados = (app, request, response) => {
     const multer = require('multer');
     const dir = './uploads/';
+    const fs = require('path');
     let filename;
-
     //Multer
-    const upload = multer({}).single('file');
+    const upload = multer({
+        storage: multer.diskStorage({
+            destination: function (req, file, cb) {
+                cb(null, dir)
+            },
+            filename: function (req, file, cb) {
+                filename = file.fieldname + '-' + Date.now() + fs.extname(file.originalname)
+                cb(null, filename)
+            }
+        })
+    }).single('file');
 
     upload(request, response, (err) => {
         if (err) {
             console.log(err)
         } else {
             //
-            const fs = require('fs');
-            const csv = require('csv-parser');
+            
+            //const csv = require('csv-parser');
 
             //Carrega modelo de dados
             const dataPrice = require('../models/dadosPrecos')
             
-            fs.writeFile(dir + request.file.originalname, request.file.buffer,(err, result)=>{
-                if(!err){
-                    console.log('ok');
-                }
-            })
-
+            response.sendStatus(200)
             //Lê o arquivo csv
             // fs.createReadStream(request.file)
             //     .pipe(csv())
