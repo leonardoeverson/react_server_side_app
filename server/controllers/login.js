@@ -16,7 +16,7 @@ module.exports.login_usuario = (app, request, response)=>{
                         request.session.logged = 'true';
                         response.status(200).json({'mensagem':'ok'});
                     }else{
-                        console.log(err)
+                        response.status(500).json({'mensagem':'Usuário não existe ou os dados de login estão errados'});
                     }
                 })
             }

@@ -23,7 +23,7 @@ app.prepare().then(() => {
         if(req.session.logged){
             app.render(req, res, '/start', {})
         }else{
-            res.redirect('/')
+            app.render(req, res, '/', {})
         }
     });
 
