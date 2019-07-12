@@ -19,13 +19,13 @@ app.prepare().then(() => {
     //Express
     const server = require('./config/express_config');
 
-    server.get('/start',(req, res)=>{
-        if(req.session.logged){
-            app.render(req, res, '/start', {})
-        }else{
-            app.render(req, res, '/', {})
-        }
-    });
+    // server.get('/start',(req, res)=>{
+    //     if(req.session.logged){
+    //         app.render(req, res, '/start', {})
+    //     }else{
+    //         app.render(req, res, '/', {})
+    //     }
+    // });
 
     server.get('*', (req,res) => {
         return handle(req,res)

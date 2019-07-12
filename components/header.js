@@ -7,7 +7,7 @@ export default () =>{
             <Nav className="mr-auto">
                 <Nav.Link href="/start">Home</Nav.Link>
                 <Nav.Link href="/search">Pesquisa</Nav.Link>
-                <Nav.Link href="/import">Meus Dados</Nav.Link>
+                <Nav.Link href="/import">Importação de Dados</Nav.Link>
             </Nav>
             <Nav>
                 <Nav.Link href="/logout">Sair</Nav.Link>

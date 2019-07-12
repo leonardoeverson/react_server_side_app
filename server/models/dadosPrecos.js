@@ -10,6 +10,7 @@ let dataPriceSchema = new Schema({
     sale_price:String,
     purchase_price:String,
     provider:String,
+    period:String,
     registration_date:{ type: Date, default: Date.now }
 });
 

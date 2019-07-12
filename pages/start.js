@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import {Container, Row, Form} from 'react-bootstrap';
+import { Container, Row, Form, Col } from 'react-bootstrap';
 import Layout from '../components/layout';
 import Header from '../components/Header'
+import Maps from '../components/maps';
+import '../css/maps.css';
 
 export default class Start extends Component {
 
@@ -13,17 +15,28 @@ export default class Start extends Component {
         }
     }
 
+    componentDidMount() {
+        const script = document.createElement("script");
+
+        script.src = "static/js/maps.js";
+        script.async = true;
+
+        document.body.appendChild(script);
+    }
+
     render() {
         return (
             <div>
                 <Layout title={this.state.title}></Layout>
                 <Header></Header>
+                <Maps></Maps>
                 <Container>
                     <Row>
-
+                        <div className="col-md-8">
+                            <div id="map"></div>  
+                        </div>
                     </Row>
                 </Container>
-
             </div>
         )
     }
