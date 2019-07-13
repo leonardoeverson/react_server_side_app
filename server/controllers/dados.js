@@ -53,3 +53,7 @@ module.exports.importa_dados = (app, request, response) => {
         }
     })
 }
+
+module.exports.recupera_dados = (app, request, response){
+    
+}

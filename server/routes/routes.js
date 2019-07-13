@@ -15,6 +15,11 @@ router.post('/cadastro', upload.none(), (request, response)=>{
     cadastro.cadastro_usuario(router, request, response);
 });
 
+router.get('/dados', (request, response)=>{
+    const dados = require('../controllers/dados');
+    dados.recupera_dados(router, request, response);
+})
+
 router.post('/upload', (request, response)=>{
     const dados = require('../controllers/dados');
     dados.importa_dados(router, request, response);
