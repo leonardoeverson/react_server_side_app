@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Form, Col } from 'react-bootstrap';
 import Layout from '../components/layout';
 import Header from '../components/Header'
-import Maps from '../components/maps';
+import Maps from '../components/gmaps';
 import '../css/maps.css';
 
 export default class Start extends Component {
@@ -18,7 +18,7 @@ export default class Start extends Component {
     componentDidMount() {
         const script = document.createElement("script");
 
-        script.src = "static/js/maps.js";
+        script.src = "static/js/gmaps.js";
         script.async = true;
 
         document.body.appendChild(script);
