@@ -4,3 +4,4 @@ node_modules
 /.idea
 uploads
 node_modules/.cache/autodll-webpack-plugin/package.json.hash
+components/gmaps.js
