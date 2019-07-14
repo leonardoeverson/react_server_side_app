@@ -54,6 +54,31 @@ module.exports.importa_dados = (app, request, response) => {
     })
 }
 
-module.exports.recupera_dados = (app, request, response){
-    
+module.exports.recupera_dados = (app, request, response) => {
+    const dataPrice = require('../models/dadosPrecos');
+    let data = new Date();
+    data = new Date(data.setDate(data.getDate() - 7));
+    data = new Date(data.toISOString());
+
+    let data2 = new Date();
+    data2 = new Date(data2.toISOString());
+
+    dataPrice.aggregate([
+        {
+            $match: {
+                registration_date: {
+                    $lte: data2,
+                    $gte: data
+                }
+            }
+        }
+
+    ], (err, result) => {
+        if(err){
+            response.status(500).json({err})
+        }else{
+            response.status(200).json({result})
+        }
+        
+    })
 }
