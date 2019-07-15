@@ -15,7 +15,7 @@ export default class Index extends Component {
             show_alert:false
         };
 
-        this.handleSubmit = this.handleSubmit.bind(this);
+        //this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     validateForm() {
