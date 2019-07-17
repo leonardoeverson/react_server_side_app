@@ -113,9 +113,10 @@ export default class Start extends Component {
         });
     }
 
-    getCardList(){
+    getCardList(itensbyPage = 5, page = 1){
         let list = [];
-        for(let i=0; i < 5; i++){
+        let i = itensbyPage * (page - 1);
+        for(i=0; i < itensbyPage * page; i++){
             let name = this.state.result_list[i].name;
             let address = this.state.result_list[i].address;
             list.push(<CardList key={i} name={name} address={address}></CardList>)
@@ -126,7 +127,7 @@ export default class Start extends Component {
 
     handleClick(event){
         this.setState({
-            activePage: event.target.innerText
+            activePage: Number(event.target.innerText)
         })
     }
 
@@ -134,7 +135,7 @@ export default class Start extends Component {
 
         let card_list;
         if(this.state.result_list){
-            card_list = this.getCardList()
+            card_list = this.getCardList(6)
         }   
 
         return (

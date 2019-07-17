@@ -13,7 +13,7 @@ export default class CardList extends React.Component{
                         {/* <Card.Title></Card.Title> */}
                         <Card.Text style={{fontSize:'10px'}}>
                             {this.props.name}
-                            <hr/>
+                            <br></br>
                             {this.props.address}
                         </Card.Text>
                         {/* <Button variant="primary">Go somewhere</Button> */}
