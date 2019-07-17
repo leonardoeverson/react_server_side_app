@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import { Container, Row, Form, Col, Button } from 'react-bootstrap';
-//import $ from 'jquery';
+import { Container, Row, Form, Col, Button} from 'react-bootstrap';
 import Layout from '../components/layout';
 import Header from '../components/Header';
 import Maps from '../components/gmaps';
-//import MapLoader from '../components/gmaps_loader';
+import CardList from '../components/cardlist'
+import Pagination from '../components/pagination'
 import '../css/maps.css';
 
+//Not Used
+//import $ from 'jquery';
+//import MapLoader from '../components/gmaps_loader';
 export default class Start extends Component {
 
     constructor(props) {
@@ -18,17 +21,17 @@ export default class Start extends Component {
             latlngbounds:"",
             directionsService:"",
             map:"",
+            activePage: 0
         }
 
-        this.handleClick = this.handleClick.bind(this);
         this.codeAddress = this.codeAddress.bind(this);
-
-        //
         this.setInfoWindow = this.setInfoWindow.bind(this);
         this.setLatLngBounds = this.setLatLngBounds.bind(this);
         this.setDirectionsService = this.setDirectionsService.bind(this);
         this.setMapView = this.setMapView.bind(this);
         this.setDirectionsRenderer = this.setDirectionsRenderer.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+        this.getCardList = this.getCardList.bind(this);
     }
 
     setInfoWindow(event){
@@ -75,27 +78,24 @@ export default class Start extends Component {
         this.setMapView();   
 
         this.setDirectionsRenderer();
-    }
 
-
-    handleClick(event){
         fetch('/dados')
             .then((res) => {
                 if(res.status == 200){
                     return res.json()
                 }
             }).then((json)=>{
-                let geocoder = new google.maps.Geocoder()
-                let results = json.result;
-                //console.log(this)
-                for(let i = 0; i < 10; i++){
-                    this.codeAddress(event, geocoder, this.state.map, results[i].address)
-                }
+                //let geocoder = new google.maps.Geocoder()
+                this.setState({
+                    result_list: json.result,
+                    activePage: 1
+                })
             })
             .catch((err) => {
                 console.log(err)
             })
     }
+
 
     codeAddress(event, geocoder, map, address) {
         geocoder.geocode({ 'address': address },(results, status)=>{
@@ -113,7 +113,30 @@ export default class Start extends Component {
         });
     }
 
+    getCardList(){
+        let list = [];
+        for(let i=0; i < 5; i++){
+            let name = this.state.result_list[i].name;
+            let address = this.state.result_list[i].address;
+            list.push(<CardList key={i} name={name} address={address}></CardList>)
+        }
+
+        return list;
+    }
+
+    handleClick(event){
+        this.setState({
+            activePage: event.target.innerText
+        })
+    }
+
     render() {
+
+        let card_list;
+        if(this.state.result_list){
+            card_list = this.getCardList()
+        }   
+
         return (
             <div>
                 <Layout title={this.state.title}></Layout>
@@ -127,12 +150,11 @@ export default class Start extends Component {
                         <Col className="col-sm-2">
                             <h1>Resultados</h1>
                             <hr/>
+                            {card_list}
+                            <Pagination activePage={this.state.activePage} handleClick={this.handleClick}/>
                         </Col>
                     </Row>
                     <Row>
-                        <Col className="col-md-2">
-                            <Button className="primary" variant="primary" onClick={this.handleClick}>Obter Dados</Button>
-                        </Col>
                     </Row>
                 </Container>
             </div>
