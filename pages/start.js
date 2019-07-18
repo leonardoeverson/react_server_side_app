@@ -24,7 +24,8 @@ export default class Start extends Component {
             activePage: 0,
             result_list_bool: false,
             card_list:[],
-            markers:[]
+            markers:[],
+            marker_number:0
         }
 
         this.setMakers = this.setMakers.bind(this);
@@ -72,9 +73,8 @@ export default class Start extends Component {
         })
     }
 
-    setMakers(geocoder, address){
-        
-        
+    setMakers(geocoder, address, name){
+           
         geocoder.geocode({ 'address': address },(results, status)=>{
             if (status === 'OK') {
                 
@@ -82,11 +82,13 @@ export default class Start extends Component {
                 
                 marker.push(new google.maps.Marker({
                     map: this.state.map,
+                    label: this.state.marker_number.toString(),
                     position: results[0].geometry.location
                 }))
                 
                 this.setState({
-                    markers: marker
+                    markers: marker,
+                    marker_number: this.state.marker_number + 1
                 })
 
                 return;
@@ -141,7 +143,7 @@ export default class Start extends Component {
         for(let i = itensbyPage * (page - 1); i < itensbyPage * page; i++){
             let name = this.state.result_list[i].name;
             let address = this.state.result_list[i].address;
-            this.setMakers(geocoder, address)
+            this.setMakers(geocoder, address, name)
             list.push(<CardList key={i} name={name} address={address}></CardList>)
         }
 
