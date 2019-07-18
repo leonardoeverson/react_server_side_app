@@ -21,10 +21,12 @@ export default class Start extends Component {
             latlngbounds:"",
             directionsService:"",
             map:"",
-            activePage: 0
+            activePage: 0,
+            result_list_bool: false,
+            card_list:[]
         }
 
-        this.codeAddress = this.codeAddress.bind(this);
+        this.setMakers = this.setMakers.bind(this);
         this.setInfoWindow = this.setInfoWindow.bind(this);
         this.setLatLngBounds = this.setLatLngBounds.bind(this);
         this.setDirectionsService = this.setDirectionsService.bind(this);
@@ -68,6 +70,22 @@ export default class Start extends Component {
         })
     }
 
+    setMakers(geocoder, address){
+        geocoder.geocode({ 'address': address },(results, status)=>{
+            if (status === 'OK') {
+                //map.setCenter(results[0].geometry.location);
+                let marker = new google.maps.Marker({
+                    map: this.state.map,
+                    position: results[0].geometry.location
+                });
+
+                return
+            } else {
+                console.log('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
+
     componentDidMount(){
         this.setInfoWindow();
 
@@ -97,28 +115,20 @@ export default class Start extends Component {
     }
 
 
-    codeAddress(event, geocoder, map, address) {
-        geocoder.geocode({ 'address': address },(results, status)=>{
-            if (status === 'OK') {
-                //map.setCenter(results[0].geometry.location);
-                let marker = new google.maps.Marker({
-                    map: map,
-                    position: results[0].geometry.location
-                });
-
-                return
-            } else {
-                console.log('Geocode was not successful for the following reason: ' + status);
-            }
-        });
-    }
-
     getCardList(itensbyPage = 5, page = 1){
         let list = [];
-        let i = itensbyPage * (page - 1);
-        for(i=0; i < itensbyPage * page; i++){
+        let geocoder = new google.maps.Geocoder();
+
+        if(typeof(this.state.card_list) !== "undefined" && this.state.card_list.length > 0){
+            this.setState({
+                card_list:[]
+            })
+        }
+
+        for(let i = itensbyPage * (page - 1); i < itensbyPage * page; i++){
             let name = this.state.result_list[i].name;
             let address = this.state.result_list[i].address;
+            this.setMakers(geocoder, address)
             list.push(<CardList key={i} name={name} address={address}></CardList>)
         }
 
@@ -127,15 +137,19 @@ export default class Start extends Component {
 
     handleClick(event){
         this.setState({
-            activePage: Number(event.target.innerText)
+            activePage: Number(event.target.innerText),
+            card_list: this.getCardList(7, Number(event.target.innerText) )
         })
+
     }
 
     render() {
 
-        let card_list;
-        if(this.state.result_list){
-            card_list = this.getCardList(6)
+        if(this.state.result_list && this.state.result_list_bool == false){
+            this.setState({
+                result_list_bool: true,
+                card_list: this.getCardList(7)
+            })
         }   
 
         return (
@@ -151,7 +165,7 @@ export default class Start extends Component {
                         <Col className="col-sm-2">
                             <h1>Resultados</h1>
                             <hr/>
-                            {card_list}
+                            {this.state.card_list}
                             <Pagination activePage={this.state.activePage} handleClick={this.handleClick}/>
                         </Col>
                     </Row>

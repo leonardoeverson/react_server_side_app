@@ -51,6 +51,15 @@ export default class MapLoader extends React.Component{
         })
     }
 
+    cleanMarkers(){
+        
+        for (var i = 0; i < this.state.markers.length; i++) {
+            this.state.markers[i].setMap(map);
+        }
+
+        markers = []
+    }
+
     componentDidMount(){
         this.setInfoWindow();
 
