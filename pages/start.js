@@ -23,7 +23,8 @@ export default class Start extends Component {
             map:"",
             activePage: 0,
             result_list_bool: false,
-            card_list:[]
+            card_list:[],
+            markers:[]
         }
 
         this.setMakers = this.setMakers.bind(this);
@@ -34,6 +35,7 @@ export default class Start extends Component {
         this.setDirectionsRenderer = this.setDirectionsRenderer.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.getCardList = this.getCardList.bind(this);
+        this.cleanMarkers = this.cleanMarkers.bind(this);
     }
 
     setInfoWindow(event){
@@ -71,18 +73,27 @@ export default class Start extends Component {
     }
 
     setMakers(geocoder, address){
+        
+        
         geocoder.geocode({ 'address': address },(results, status)=>{
             if (status === 'OK') {
-                //map.setCenter(results[0].geometry.location);
-                let marker = new google.maps.Marker({
+                
+                let marker = this.state.markers;
+                
+                marker.push(new google.maps.Marker({
                     map: this.state.map,
                     position: results[0].geometry.location
-                });
+                }))
+                
+                this.setState({
+                    markers: marker
+                })
 
-                return
+                return;
             } else {
                 console.log('Geocode was not successful for the following reason: ' + status);
             }
+
         });
     }
 
@@ -123,6 +134,8 @@ export default class Start extends Component {
             this.setState({
                 card_list:[]
             })
+
+            this.cleanMarkers();
         }
 
         for(let i = itensbyPage * (page - 1); i < itensbyPage * page; i++){
@@ -133,6 +146,17 @@ export default class Start extends Component {
         }
 
         return list;
+    }
+
+    cleanMarkers(){
+        
+        for (var i = 0; i < this.state.markers.length; i++) {
+            this.state.markers[i].setMap(null);
+        }
+
+        this.setState({
+            markers:[]
+        })
     }
 
     handleClick(event){
