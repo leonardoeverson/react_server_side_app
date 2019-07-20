@@ -15,23 +15,25 @@ export default class MapLoader extends React.Component{
         this.setDirectionsService = this.setDirectionsService.bind(this);
         this.setMapView = this.setMapView.bind(this);
         this.setDirectionsRenderer = this.setDirectionsRenderer.bind(this);
+        
+        this.cleanMarkers = this.cleanMarkers.bind(this);
     }
 
     setInfoWindow(event){
         this.setState({
-            infoWindow: new google.maps.InfoWindow()
+            infoWindow: new google.maps.InfoWindow();
         })
     }
 
     setLatLngBounds(event){
         this.setState({
-            latlngbounds: new google.maps.LatLngBounds()
+            latlngbounds: new google.maps.LatLngBounds();
         })
     }
 
     setDirectionsService(event){
         this.setState({
-            directionsService: new google.maps.DirectionsService()
+            directionsService: new google.maps.DirectionsService();
         })
     }
 
@@ -52,12 +54,15 @@ export default class MapLoader extends React.Component{
     }
 
     cleanMarkers(){
-        
+    
         for (var i = 0; i < this.state.markers.length; i++) {
-            this.state.markers[i].setMap(map);
+            this.state.markers[i].setMap(null);
         }
 
-        markers = []
+        this.setState({
+            markers: []
+        })
+    
     }
 
     componentDidMount(){
@@ -72,6 +77,9 @@ export default class MapLoader extends React.Component{
         this.setDirectionsRenderer();
     }
 
+    componentDidUpdate(prevProps){
+
+    }
 
     render(){
         return(

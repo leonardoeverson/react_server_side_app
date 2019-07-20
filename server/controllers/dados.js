@@ -27,6 +27,12 @@ module.exports.importa_dados = (app, request, response) => {
             const dataPrice = require('../models/dadosPrecos');
             let arquivo_dados = xlsx.parse(dir + filename);
 
+            //To-do
+            /*
+                1 - Reconhecer o tipo de combustível inserido
+                2 - Verificar se já existe do posto para aquele data
+                
+            */
             for(let i = 11; i < arquivo_dados[0].data.length;i++){
                 
                 let dataPriceDB = new dataPrice({

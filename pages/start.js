@@ -152,7 +152,7 @@ export default class Start extends Component {
 
     cleanMarkers(){
         
-        for (var i = 0; i < this.state.markers.length; i++) {
+        for (let i = 0; i < this.state.markers.length; i++) {
             this.state.markers[i].setMap(null);
         }
 
