@@ -3,6 +3,7 @@ import { Container, Row, Form, Col, Button} from 'react-bootstrap';
 import Layout from '../components/layout';
 import Header from '../components/Header';
 import Maps from '../components/gmaps';
+import MapsView from '../components/gmaps_loader'
 import CardList from '../components/cardlist'
 import Pagination from '../components/pagination'
 import '../css/maps.css';
@@ -28,87 +29,13 @@ export default class Start extends Component {
             marker_number:0
         }
 
-        this.setMakers = this.setMakers.bind(this);
-        this.setInfoWindow = this.setInfoWindow.bind(this);
-        this.setLatLngBounds = this.setLatLngBounds.bind(this);
-        this.setDirectionsService = this.setDirectionsService.bind(this);
-        this.setMapView = this.setMapView.bind(this);
-        this.setDirectionsRenderer = this.setDirectionsRenderer.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.getCardList = this.getCardList.bind(this);
-        this.cleanMarkers = this.cleanMarkers.bind(this);
+        
     }
 
-    setInfoWindow(event){
-        this.setState({
-            infoWindow: new google.maps.InfoWindow()
-        })
-    }
-
-    setLatLngBounds(event){
-        this.setState({
-            latlngbounds: new google.maps.LatLngBounds()
-        })
-    }
-
-    setDirectionsService(event){
-        this.setState({
-            directionsService: new google.maps.DirectionsService()
-        })
-    }
-
-    setMapView(event){
-        this.setState({
-            map: new google.maps.Map(document.getElementById('map'), {
-                zoom: 10,
-                center: {lat:-3.71839,lng: -38.5267},
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            })
-        })
-    }
-
-    setDirectionsRenderer(){
-        this.setState({
-            directionsDisplay: new google.maps.DirectionsRenderer({ 'draggable': true })
-        })
-    }
-
-    setMakers(geocoder, address, name){
-           
-        geocoder.geocode({ 'address': address },(results, status)=>{
-            if (status === 'OK') {
-                
-                let marker = this.state.markers;
-                
-                marker.push(new google.maps.Marker({
-                    map: this.state.map,
-                    label: this.state.marker_number.toString(),
-                    position: results[0].geometry.location
-                }))
-                
-                this.setState({
-                    markers: marker,
-                    marker_number: this.state.marker_number + 1
-                })
-
-                return;
-            } else {
-                console.log('Geocode was not successful for the following reason: ' + status);
-            }
-
-        });
-    }
-
+    
     componentDidMount(){
-        this.setInfoWindow();
-
-        this.setLatLngBounds();
-
-        this.setDirectionsService();
-
-        this.setMapView();   
-
-        this.setDirectionsRenderer();
 
         fetch('/dados')
             .then((res) => {
@@ -127,46 +54,41 @@ export default class Start extends Component {
             })
     }
 
-
     getCardList(itensbyPage = 5, page = 1){
         let list = [];
-        let geocoder = new google.maps.Geocoder();
-
+        
         if(typeof(this.state.card_list) !== "undefined" && this.state.card_list.length > 0){
             this.setState({
                 card_list:[]
             })
 
-            this.cleanMarkers();
+            //this.cleanMarkers();
         }
 
         for(let i = itensbyPage * (page - 1); i < itensbyPage * page; i++){
             let name = this.state.result_list[i].name;
             let address = this.state.result_list[i].address;
-            this.setMakers(geocoder, address, name)
             list.push(<CardList key={i} name={name} address={address}></CardList>)
         }
 
         return list;
     }
 
-    cleanMarkers(){
+    handleClick(value){
+
+        let activePage = this.state.activePage;
         
-        for (let i = 0; i < this.state.markers.length; i++) {
-            this.state.markers[i].setMap(null);
+        if(value == 1){
+            if(activePage >= 0)
+                activePage--;
+        }else{
+            activePage++;
         }
-
+        
         this.setState({
-            markers:[]
+            activePage: activePage,
+            card_list: this.getCardList(7, activePage )
         })
-    }
-
-    handleClick(event){
-        this.setState({
-            activePage: Number(event.target.innerText),
-            card_list: this.getCardList(7, Number(event.target.innerText) )
-        })
-
     }
 
     render() {
@@ -186,7 +108,7 @@ export default class Start extends Component {
                 <Container fluid="true">
                     <Row>
                         <Col className="col-sm-8">
-                            <div id="map"></div>
+                            <MapsView markers={this.state.markers}></MapsView>
                         </Col>
                         <Col className="col-sm-2">
                             <h1>Resultados</h1>

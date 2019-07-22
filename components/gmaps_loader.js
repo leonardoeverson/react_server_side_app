@@ -7,33 +7,34 @@ export default class MapLoader extends React.Component{
         super(props)
 
         this.state = {
-            marker: this.props.markers
+            markers: this.props.markers
         }
 
+        this.setMakers = this.setMakers.bind(this);
         this.setInfoWindow = this.setInfoWindow.bind(this);
         this.setLatLngBounds = this.setLatLngBounds.bind(this);
         this.setDirectionsService = this.setDirectionsService.bind(this);
         this.setMapView = this.setMapView.bind(this);
         this.setDirectionsRenderer = this.setDirectionsRenderer.bind(this);
-        
         this.cleanMarkers = this.cleanMarkers.bind(this);
+
     }
 
     setInfoWindow(event){
         this.setState({
-            infoWindow: new google.maps.InfoWindow();
+            infoWindow: new google.maps.InfoWindow()
         })
     }
 
     setLatLngBounds(event){
         this.setState({
-            latlngbounds: new google.maps.LatLngBounds();
+            latlngbounds: new google.maps.LatLngBounds()
         })
     }
 
     setDirectionsService(event){
         this.setState({
-            directionsService: new google.maps.DirectionsService();
+            directionsService: new google.maps.DirectionsService()
         })
     }
 
@@ -47,6 +48,34 @@ export default class MapLoader extends React.Component{
         })
     }
 
+
+    setMakers(geocoder, address, name){
+        //let geocoder = new google.maps.Geocoder(); 
+        geocoder.geocode({ 'address': address },(results, status)=>{
+            if (status === 'OK') {
+                
+                let marker = this.state.markers;
+                
+                marker.push(new google.maps.Marker({
+                    map: this.state.map,
+                    label: this.state.marker_number.toString(),
+                    position: results[0].geometry.location
+                }))
+                
+                this.setState({
+                    markers: marker,
+                    marker_number: this.state.marker_number + 1
+                })
+
+                return;
+            } else {
+                console.log('Geocode was not successful for the following reason: ' + status);
+            }
+
+        });
+    }
+
+    
     setDirectionsRenderer(){
         this.setState({
             directionsDisplay: new google.maps.DirectionsRenderer({ 'draggable': true })
@@ -66,6 +95,7 @@ export default class MapLoader extends React.Component{
     }
 
     componentDidMount(){
+
         this.setInfoWindow();
 
         this.setLatLngBounds();
