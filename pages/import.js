@@ -8,19 +8,19 @@ export default class Import extends Component {
         super(props)
 
         this.state = {
-            title : "Importação de Dados"
+            title: "Importação de Dados"
         }
 
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     handleSubmit(event) {
-        
+
         event.preventDefault();
         let dados = new FormData(event.target);
 
-        fetch('/upload',{
-            method:'post',
+        fetch('/upload', {
+            method: 'post',
             body: dados
         })
     }
@@ -33,9 +33,31 @@ export default class Import extends Component {
                 <Header></Header>
                 <Container>
                     <Form onSubmit={this.handleSubmit}>
-                        <Form.Group controlId="formBasicEmail">
+                    <Form.Group controlId="formBasic">
+                            <Form.Label>Resumo</Form.Label>
+                            <Form.Control as="select" name="resumo">
+                                <option value="1">Semanal</option>
+                                <option value="2">Mensal</option>
+                            </Form.Control>
+                    </Form.Group>
+                    <Form.Group controlId="formBasic">
+                            <Form.Label>Síntese dos Preços Praticados </Form.Label>
+                            <Form.Control as="select" name="resumo">
+                                <option value="1">Brasil</option>
+                                <option value="2">Estado</option>
+                                <option value="3">Cidade</option>
+                            </Form.Control>
+                        </Form.Group>
+                        <Form.Group controlId="formBasic">
+                            <Form.Label>Selecione o tipo</Form.Label>
+                            <Form.Control as="select" name="tipo">
+                                <option value="1">Gasolina</option>
+                                <option value="2">Álcool</option>
+                            </Form.Control>
+                        </Form.Group>
+                        <Form.Group controlId="formBasic">
                             <Form.Label>Arquivo para importação</Form.Label>
-                            <Form.Control type="file" placeholder="Enter email" name="file"/>
+                            <Form.Control type="file" name="file" />
                         </Form.Group>
                         <Button variant="primary" type="submit">
                             Submit

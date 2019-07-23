@@ -22,37 +22,56 @@ module.exports.importa_dados = (app, request, response) => {
         if (err) {
             console.log(err)
         } else {
+            
+            let tipo = request.body.tipo;
 
             //Carrega modelo de dados
-            const dataPrice = require('../models/dadosPrecos');
+            const registroPrecos = require('../models/dadosPrecos');
             let arquivo_dados = xlsx.parse(dir + filename);
 
             //To-do
             /*
-                1 - Reconhecer o tipo de combustível inserido
-                2 - Verificar se já existe do posto para aquele data
-                
+                1 - Verificar se existe dados pra data
+                2 - Reconhecer o tipo de combustível inserido
+                3 - Verificar se já existe do posto para aquele data
+                4 - Se existe, atualizar os dados
             */
-            for(let i = 11; i < arquivo_dados[0].data.length;i++){
+            //criar collections de periodos
+            console.log(arquivo_dados[0].data)
+            for(let i = 11; i < 112;i++){
                 
-                let dataPriceDB = new dataPrice({
-                    name: arquivo_dados[0].data[i][0],
-                    address:arquivo_dados[0].data[i][1],
-                    district: arquivo_dados[0].data[i][2],
-                    flag: arquivo_dados[0].data[i][3],
-                    sale_price: arquivo_dados[0].data[i][4],
-                    purchase_price: arquivo_dados[0].data[i][5],
-                    provider: arquivo_dados[0].data[i][6],
-                    period: arquivo_dados[0].data[6][0]
-                })
+                let registroPrecosDB;
 
-                dataPriceDB.save((err)=>{
+                if(tipo == 1){
+                    registroPrecosDB = new registroPrecos({
+                        name: arquivo_dados[0].data[i][0],
+                        address:arquivo_dados[0].data[i][1],
+                        district: arquivo_dados[0].data[i][2],
+                        flag: arquivo_dados[0].data[i][3],
+                        gs_sale_price: arquivo_dados[0].data[i][4],
+                        gs_purchase_price: arquivo_dados[0].data[i][5],
+                        provider: arquivo_dados[0].data[i][6],
+                        period: arquivo_dados[0].data[6][0]
+                    })    
+                }else{
+                    registroPrecosDB = new registroPrecos({
+                        name: arquivo_dados[0].data[i][0],
+                        address:arquivo_dados[0].data[i][1],
+                        district: arquivo_dados[0].data[i][2],
+                        flag: arquivo_dados[0].data[i][3],
+                        eth_sale_price: arquivo_dados[0].data[i][4],
+                        eth_purchase_price: arquivo_dados[0].data[i][5],
+                        provider: arquivo_dados[0].data[i][6],
+                        period: arquivo_dados[0].data[6][0]
+                    })
+                }
+                
+                registroPrecosDB.save((err)=>{
                     if(err){
                         console.log(err)
                         response.status(500).json({error:'Houve um erro ao atualizar os dados'})
                     }
                 })
-
             }
             
             response.status(200).json({msg:'Dados atualizados com sucesso'})

@@ -107,13 +107,14 @@ export default class MapLoader extends React.Component{
         this.setDirectionsRenderer();
     }
 
-    componentDidUpdate(prevProps){
-
+    componentDidUpdate(prevProps, prevState, snapshot){
+        
     }
 
     render(){
         return(
             <div>
+                <Maps></Maps>
                <div id="map"></div>
             </div>
         )

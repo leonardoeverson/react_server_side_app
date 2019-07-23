@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Container, Row, Form, Col, Button} from 'react-bootstrap';
 import Layout from '../components/layout';
 import Header from '../components/Header';
-import Maps from '../components/gmaps';
 import MapsView from '../components/gmaps_loader'
 import CardList from '../components/cardlist'
 import Pagination from '../components/pagination'
@@ -54,24 +53,26 @@ export default class Start extends Component {
             })
     }
 
-    getCardList(itensbyPage = 5, page = 1){
+    getCardList(itensbyPage = 7, page = 1){
         let list = [];
         
         if(typeof(this.state.card_list) !== "undefined" && this.state.card_list.length > 0){
             this.setState({
                 card_list:[]
             })
-
-            //this.cleanMarkers();
         }
 
-        for(let i = itensbyPage * (page - 1); i < itensbyPage * page; i++){
-            let name = this.state.result_list[i].name;
-            let address = this.state.result_list[i].address;
-            list.push(<CardList key={i} name={name} address={address}></CardList>)
-        }
+        if(this.state.result_list.length > 0){
+            for(let i = itensbyPage * (page - 1); i < itensbyPage * page; i++){
+                let name = this.state.result_list[i].name;
+                let address = this.state.result_list[i].address;
+                list.push(<CardList key={i} name={name} address={address}></CardList>)
+            }
 
-        return list;
+            return list;
+        }
+        
+        
     }
 
     handleClick(value){
@@ -79,12 +80,14 @@ export default class Start extends Component {
         let activePage = this.state.activePage;
         
         if(value == 1){
-            if(activePage >= 0)
-                activePage--;
+            activePage--;
+            if(activePage <= 0 ){
+                activePage = 1
+            }
         }else{
             activePage++;
         }
-        
+                
         this.setState({
             activePage: activePage,
             card_list: this.getCardList(7, activePage )
@@ -104,7 +107,6 @@ export default class Start extends Component {
             <div>
                 <Layout title={this.state.title}></Layout>
                 <Header></Header>
-                <Maps></Maps>
                 <Container fluid="true">
                     <Row>
                         <Col className="col-sm-8">
