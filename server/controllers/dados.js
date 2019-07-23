@@ -27,6 +27,9 @@ module.exports.importa_dados = (app, request, response) => {
 
             //Carrega modelo de dados
             const registroPrecos = require('../models/dadosPrecos');
+            const historicoPrecos = require('../models/historicoPrecos')
+
+            //Faz a Leitura do Arquivo
             let arquivo_dados = xlsx.parse(dir + filename);
 
             //To-do
@@ -36,8 +39,19 @@ module.exports.importa_dados = (app, request, response) => {
                 3 - Verificar se já existe do posto para aquele data
                 4 - Se existe, atualizar os dados
             */
-            //criar collections de periodos
-            console.log(arquivo_dados[0].data)
+            let historicoPrecosDB = new historicoPrecos({
+                city: arquivo_dados[0].data[4][0],
+                fuel:arquivo_dados[0].data[5][0],
+                period:arquivo_dados[0].data[6][0],
+            })
+
+            historicoPrecosDB.save((err)=>{
+                if(err){
+                    console.log(err)
+                    response.status(500).json({error:'Houve um erro ao atualizar os dados'})
+                }
+            })
+
             for(let i = 11; i < 112;i++){
                 
                 let registroPrecosDB;

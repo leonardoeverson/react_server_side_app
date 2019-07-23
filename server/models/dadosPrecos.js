@@ -13,6 +13,7 @@ let registroPrecosSchema = new Schema({
     eth_purchase_price:String,
     provider:String,
     period:String,
+    collection_date: String,
     registration_date:{ type: Date, default: Date.now }
 });
 

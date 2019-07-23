@@ -5,8 +5,8 @@ const Schema = mongoose.Schema;
 let historicoPrecosSchema = new Schema({
     period:String,
     city:String,
-    state:String,
+    fuel:String,
     registration_date:{ type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('dataPrice', historicoPrecosSchema);
+module.exports = mongoose.model('historicoPrecos', historicoPrecosSchema);
