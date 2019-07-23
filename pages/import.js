@@ -57,7 +57,7 @@ export default class Import extends Component {
                         </Form.Group>
                         <Form.Group controlId="formBasic">
                             <Form.Label>Arquivo para importação</Form.Label>
-                            <Form.Control type="file" name="file" />
+                            <Form.Control type="file" name="file" required />
                         </Form.Group>
                         <Button variant="primary" type="submit">
                             Submit

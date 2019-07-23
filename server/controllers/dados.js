@@ -52,6 +52,10 @@ module.exports.importa_dados = (app, request, response) => {
                 }
             })
 
+            historicoPrecosDB.collection.drop();
+            registroPrecos.collection.drop();
+
+
             for(let i = 11; i < 112;i++){
                 
                 let registroPrecosDB;
@@ -64,8 +68,9 @@ module.exports.importa_dados = (app, request, response) => {
                         flag: arquivo_dados[0].data[i][3],
                         gs_sale_price: arquivo_dados[0].data[i][4],
                         gs_purchase_price: arquivo_dados[0].data[i][5],
-                        provider: arquivo_dados[0].data[i][6],
-                        period: arquivo_dados[0].data[6][0]
+                        provider: arquivo_dados[0].data[i][7],
+                        period: arquivo_dados[0].data[6][0],
+                        collection_date: new Date(1900, 0, Number(arquivo_dados[0].data[i][8]) - 1)
                     })    
                 }else{
                     registroPrecosDB = new registroPrecos({
@@ -75,8 +80,8 @@ module.exports.importa_dados = (app, request, response) => {
                         flag: arquivo_dados[0].data[i][3],
                         eth_sale_price: arquivo_dados[0].data[i][4],
                         eth_purchase_price: arquivo_dados[0].data[i][5],
-                        provider: arquivo_dados[0].data[i][6],
-                        period: arquivo_dados[0].data[6][0]
+                        provider: arquivo_dados[0].data[i][7],
+                        collection_date: new Date(1900, 0, Number(arquivo_dados[0].data[i][8]) - 1)
                     })
                 }
                 
