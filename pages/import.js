@@ -33,16 +33,16 @@ export default class Import extends Component {
                 <Header></Header>
                 <Container>
                     <Form onSubmit={this.handleSubmit}>
-                    <Form.Group controlId="formBasic">
+                        <Form.Group controlId="formBasic">
                             <Form.Label>Resumo</Form.Label>
                             <Form.Control as="select" name="resumo">
                                 <option value="1">Semanal</option>
                                 <option value="2">Mensal</option>
                             </Form.Control>
-                    </Form.Group>
-                    <Form.Group controlId="formBasic">
+                        </Form.Group>
+                        <Form.Group controlId="formBasic">
                             <Form.Label>Síntese dos Preços Praticados </Form.Label>
-                            <Form.Control as="select" name="resumo">
+                            <Form.Control as="select" name="sintese">
                                 <option value="1">Brasil</option>
                                 <option value="2">Estado</option>
                                 <option value="3">Cidade</option>
@@ -54,6 +54,14 @@ export default class Import extends Component {
                                 <option value="1">Gasolina</option>
                                 <option value="2">Álcool</option>
                             </Form.Control>
+                        </Form.Group>
+                        <Form.Group controlId="formBasic">
+                            <Form.Label>Linha Inicial da Leitura</Form.Label>
+                            <Form.Control type="number" name="linha_inicial" required />
+                        </Form.Group>
+                        <Form.Group controlId="formBasic">
+                            <Form.Label>Linha Final da Leitura</Form.Label>
+                            <Form.Control type="number" name="linha_final" required />
                         </Form.Group>
                         <Form.Group controlId="formBasic">
                             <Form.Label>Arquivo para importação</Form.Label>

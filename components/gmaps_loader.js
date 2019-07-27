@@ -95,16 +95,19 @@ export default class MapLoader extends React.Component{
     }
 
     componentDidMount(){
+        
+        if (typeof (google) != "undefined") {
+            this.setInfoWindow();
 
-        this.setInfoWindow();
+            this.setLatLngBounds();
 
-        this.setLatLngBounds();
+            this.setDirectionsService();
 
-        this.setDirectionsService();
+            this.setMapView();
 
-        this.setMapView();   
-
-        this.setDirectionsRenderer();
+            this.setDirectionsRenderer();
+        }
+        
     }
 
     componentDidUpdate(prevProps, prevState, snapshot){
