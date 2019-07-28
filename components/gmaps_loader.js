@@ -41,7 +41,7 @@ export default class MapLoader extends React.Component{
     setMapView(event){
         this.setState({
             map: new google.maps.Map(document.getElementById('map'), {
-                zoom: 10,
+                zoom:13,
                 center: {lat:-3.71839,lng: -38.5267},
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             })
