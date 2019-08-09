@@ -7,7 +7,8 @@ export default class MapLoader extends React.Component{
         super(props)
 
         this.state = {
-            markers: this.props.markers
+            markers: this.props.markers,
+            map_loaded: false
         }
 
         this.setMakers = this.setMakers.bind(this);
@@ -97,6 +98,12 @@ export default class MapLoader extends React.Component{
     componentDidMount(){
         
         if (typeof (google) != "undefined") {
+            
+            //Esperando o mapa carregar
+            this.setState({
+                map_loader: true
+            })
+            
             this.setInfoWindow();
 
             this.setLatLngBounds();
@@ -111,15 +118,25 @@ export default class MapLoader extends React.Component{
     }
 
     componentDidUpdate(prevProps, prevState, snapshot){
-        
+        if(typeof (google) != "undefined"){
+            console.log('Google maps loaded...')
+        }
     }
 
     render(){
-        return(
+        if(!this.state.map_loader){
+            return(
+                <div><h4>Mapa carregando...</h4></div>
+            )
+        }else{
+            return(
             <div>
                 <Maps></Maps>
                <div id="map"></div>
             </div>
         )
+        
+        }
+        
     }
 }
