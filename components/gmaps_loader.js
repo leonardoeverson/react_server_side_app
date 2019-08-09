@@ -114,7 +114,6 @@ export default class MapLoader extends React.Component{
 
             this.setDirectionsRenderer();
         }
-        
     }
 
     componentDidUpdate(prevProps, prevState, snapshot){
