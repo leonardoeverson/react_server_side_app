@@ -39,10 +39,15 @@ module.exports.importa_dados = (app, request, response) => {
                 3 - Verificar se já existe do posto para aquele data
                 4 - Se existe, atualizar os dados
             */
+
             let historicoPrecosDB = new historicoPrecos({
                 city: arquivo_dados[0].data[4][0],
                 fuel:arquivo_dados[0].data[5][0],
                 period:arquivo_dados[0].data[6][0],
+            })
+
+            historicoPrecos.find({period: arquivo_dados[0].data[6][0]}, (err, docs)=>{
+                
             })
 
             historicoPrecosDB.save((err)=>{

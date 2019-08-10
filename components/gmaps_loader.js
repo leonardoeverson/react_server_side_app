@@ -18,8 +18,6 @@ export default class MapLoader extends React.Component {
         this.setMapView = this.setMapView.bind(this);
         this.setDirectionsRenderer = this.setDirectionsRenderer.bind(this);
         this.cleanMarkers = this.cleanMarkers.bind(this);
-
-        this.loadMapsLib = this.loadMapsLib.bind(this);
     }
 
     setInfoWindow(event) {
@@ -82,6 +80,8 @@ export default class MapLoader extends React.Component {
         this.setState({
             directionsDisplay: new google.maps.DirectionsRenderer({ 'draggable': true })
         })
+
+        console.log('Mapa carregado...')
     }
 
     cleanMarkers() {
@@ -101,14 +101,10 @@ export default class MapLoader extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        
-    }
-
-    loadMapsLib(){
         if(typeof (google) != "undefined" && !this.state.map_loaded){
             
-            console.log('Mapa carregado...')
-            
+            this.setMapView();
+
             this.setState({
                 map_loaded: true
             })
@@ -119,8 +115,6 @@ export default class MapLoader extends React.Component {
 
             this.setDirectionsService();
 
-            this.setMapView();
-
             this.setDirectionsRenderer();
         }
     }
@@ -129,7 +123,7 @@ export default class MapLoader extends React.Component {
 
         return (
             <div>
-                <Maps load={()=>{ this.loadMapsLib() }}></Maps>
+                <Maps load={()=>{ console.log('ok') }}></Maps>
                <div id="map"></div>
             </div>
         )
