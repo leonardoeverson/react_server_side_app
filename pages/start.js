@@ -23,7 +23,7 @@ export default class Start extends Component {
             markers:[],
             marker_number:0,
             activeNext: false,
-            activePrev: false,
+            activePrev: true,
             itemsbyPage: 4
         }
 
@@ -56,16 +56,17 @@ export default class Start extends Component {
         let list = [];
         
         if(typeof(this.state.card_list) !== "undefined" && this.state.card_list.length > 0){
+            
+            if((itensbyPage * page) > this.state.result_list.length){
+                return;
+            }
+
             this.setState({
                 card_list:[]
             })
         }
 
         if(this.state.result_list.length > 0){
-
-            if((itemsbyPage * page) > this.state.result_list.length){
-                return;
-            }
 
             for(let i = itensbyPage * (page - 1); i < itensbyPage * page; i++){
                 let {name, address} = this.state.result_list[i];
@@ -76,8 +77,7 @@ export default class Start extends Component {
 
             return list;
         }
-        
-        
+                
     }
 
     handleClick(value){
@@ -89,15 +89,20 @@ export default class Start extends Component {
             if(activePage <= 1 ){
                 activePage = 1
                 this.setState({
+                    activePrev: true
+                })
+            }else{
+                this.setState({
                     activePrev: false
                 })
             }
         }else{
-            activePage++;
-
-            if(activePage >= this.state.result_list.length){
+           
+            if(activePage < this.state.result_list.length){
+                activePage++;
+            }else{
                 this.setState({
-                    activeNext: false
+                    activeNext: true
                 })
             }
         }
