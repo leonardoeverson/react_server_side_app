@@ -22,7 +22,7 @@ module.exports.importa_dados = (app, request, response) => {
         if (err) {
             console.log(err)
         } else {
-            
+
             let tipo = request.body.tipo;
 
             //Carrega modelo de dados
@@ -34,73 +34,119 @@ module.exports.importa_dados = (app, request, response) => {
 
             //To-do
             /*
-                1 - Verificar se existe dados pra data
-                2 - Reconhecer o tipo de combustível inserido
-                3 - Verificar se já existe do posto para aquele data
-                4 - Se existe, atualizar os dados
+                1 - Verificar se existe dados pra data -- ok
+                2 - Reconhecer o tipo de combustível inserido -- ok
+                3 - Verificar se já existe do posto para aquele data - ok
+                4 - Se existe, atualizar os dados - ok
             */
 
             let historicoPrecosDB = new historicoPrecos({
                 city: arquivo_dados[0].data[4][0],
-                fuel:arquivo_dados[0].data[5][0],
-                period:arquivo_dados[0].data[6][0],
+                fuel: arquivo_dados[0].data[5][0],
+                period: arquivo_dados[0].data[6][0],
             })
 
-            historicoPrecos.find({period: arquivo_dados[0].data[6][0]}, (err, docs)=>{
-                
-            })
-
-            historicoPrecosDB.save((err)=>{
-                if(err){
-                    console.log(err)
-                    response.status(500).json({error:'Houve um erro ao atualizar os dados'})
+            historicoPrecos.find({ period: arquivo_dados[0].data[6][0], fuel: arquivo_dados[0].data[5][0] }, (error, docs) => {
+                if (!error) {
+                    if (docs.length == 0) {
+                        historicoPrecosDB.save((err) => {
+                            if (err) {
+                                console.log(err)
+                                response.status(500).json({ error: 'Houve um erro ao atualizar os dados' })
+                            }
+                        })
+                    }
+                } else {
+                    console.log(error)
                 }
             })
 
-            historicoPrecosDB.collection.drop();
-            registroPrecos.collection.drop();
+            //historicoPrecosDB.collection.drop();
+            //registroPrecos.collection.drop();
 
+            for (let i = 11; i < 112; i++) {
 
-            for(let i = 11; i < 112;i++){
-                
                 let registroPrecosDB;
                 let data = new Date(1900, 0, Number(arquivo_dados[0].data[i][8]) - 1);
-                data = data.getDate() + "/" + (data.getMonth() + 1 ) + "/" + data.getFullYear();
+                data = data.getDate() + "/" + (data.getMonth() + 1) + "/" + data.getFullYear();
 
-                if(tipo == 1){
-                    registroPrecosDB = new registroPrecos({
-                        name: arquivo_dados[0].data[i][0],
-                        address:arquivo_dados[0].data[i][1],
-                        district: arquivo_dados[0].data[i][2],
-                        flag: arquivo_dados[0].data[i][3],
-                        gs_sale_price: arquivo_dados[0].data[i][4],
-                        gs_purchase_price: arquivo_dados[0].data[i][5],
-                        provider: arquivo_dados[0].data[i][7],
-                        period: arquivo_dados[0].data[6][0],
-                        collection_date: data
-                    })    
-                }else{
-                    registroPrecosDB = new registroPrecos({
-                        name: arquivo_dados[0].data[i][0],
-                        address:arquivo_dados[0].data[i][1],
-                        district: arquivo_dados[0].data[i][2],
-                        flag: arquivo_dados[0].data[i][3],
-                        eth_sale_price: arquivo_dados[0].data[i][4],
-                        eth_purchase_price: arquivo_dados[0].data[i][5],
-                        provider: arquivo_dados[0].data[i][7],
-                        collection_date: data
-                    })
+                //Realizar Pesquisa
+                if (tipo == 1) {
+
+                    registroPrecos.findOne(
+                        {
+                            name: arquivo_dados[0].data[i][0],
+                            address: arquivo_dados[0].data[i][1],
+                            district: arquivo_dados[0].data[i][2],
+                            flag: arquivo_dados[0].data[i][3],
+                            gs_sale_price: arquivo_dados[0].data[i][4],
+                            gs_purchase_price: arquivo_dados[0].data[i][5],
+                            provider: arquivo_dados[0].data[i][7],
+                            period: arquivo_dados[0].data[6][0],
+
+                        }, (err, docs) => {
+                            if (!err) {
+                                if (docs.length == 0) {
+                                    registroPrecosDB = new registroPrecos({
+                                        name: arquivo_dados[0].data[i][0],
+                                        address: arquivo_dados[0].data[i][1],
+                                        district: arquivo_dados[0].data[i][2],
+                                        flag: arquivo_dados[0].data[i][3],
+                                        gs_sale_price: arquivo_dados[0].data[i][4],
+                                        gs_purchase_price: arquivo_dados[0].data[i][5],
+                                        provider: arquivo_dados[0].data[i][7],
+                                        period: arquivo_dados[0].data[6][0],
+                                        collection_date: data
+                                    })
+                                }
+                            } else {
+                                console.log(err)
+                            }
+                        })
+
+                } else {
+
+                    registroPrecos.findOne(
+                        {
+                            name: arquivo_dados[0].data[i][0],
+                            address: arquivo_dados[0].data[i][1],
+                            district: arquivo_dados[0].data[i][2],
+                            flag: arquivo_dados[0].data[i][3],
+                            eth_sale_price: arquivo_dados[0].data[i][4],
+                            eth_purchase_price: arquivo_dados[0].data[i][5],
+                            provider: arquivo_dados[0].data[i][7]
+
+                        }, (err, docs) => {
+                            if (!err) {
+                                if (docs.length == 0) {
+                                    registroPrecosDB = new registroPrecos({
+                                        name: arquivo_dados[0].data[i][0],
+                                        address: arquivo_dados[0].data[i][1],
+                                        district: arquivo_dados[0].data[i][2],
+                                        flag: arquivo_dados[0].data[i][3],
+                                        eth_sale_price: arquivo_dados[0].data[i][4],
+                                        eth_purchase_price: arquivo_dados[0].data[i][5],
+                                        provider: arquivo_dados[0].data[i][7],
+                                        collection_date: data
+                                    })
+                                }
+                            } else {
+                                console.log(err)
+                            }
+                        })
+
+
                 }
-                
-                registroPrecosDB.save((err)=>{
-                    if(err){
+
+                registroPrecosDB.save((err) => {
+                    if (err) {
                         console.log(err)
-                        response.status(500).json({error:'Houve um erro ao atualizar os dados'})
+                        response.status(500).json({ error: 'Houve um erro ao atualizar os dados' })
                     }
                 })
             }
-            
-            response.status(200).json({msg:'Dados atualizados com sucesso'})
+
+            response.status(200).json({ msg: 'Dados atualizados com sucesso' })
         }
     })
 }
@@ -125,11 +171,11 @@ module.exports.recupera_dados = (app, request, response) => {
         }
 
     ], (err, result) => {
-        if(err){
-            response.status(500).json({err})
-        }else{
-            response.status(200).json({result})
+        if (err) {
+            response.status(500).json({ err })
+        } else {
+            response.status(200).json({ result })
         }
-        
+
     })
 }
