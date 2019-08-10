@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { Container, Row, Form, Col} from 'react-bootstrap';
 import Layout from '../components/layout';
-import Header from '../components/Header';
+import NavHeader from '../components/header';
 import MapsView from '../components/gmaps_loader'
 import CardList from '../components/cardlist'
 import Pagination from '../components/pagination'
@@ -125,7 +125,7 @@ export default class Start extends Component {
         return (
             <div>
                 <Layout title={this.state.title}></Layout>
-                <Header></Header>
+                < NavHeader></ NavHeader>
                 <Container fluid="true">
                     <Row>
                         <Col className="col-sm-7">
