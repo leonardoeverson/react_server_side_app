@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Maps from '../components/gmaps';
 
-export default class MapLoader extends React.Component{
-    
-    constructor(props){
+export default class MapLoader extends React.Component {
+
+    constructor(props) {
         super(props)
 
         this.state = {
@@ -19,50 +19,51 @@ export default class MapLoader extends React.Component{
         this.setDirectionsRenderer = this.setDirectionsRenderer.bind(this);
         this.cleanMarkers = this.cleanMarkers.bind(this);
 
+        this.loadMapsLib = this.loadMapsLib.bind(this);
     }
 
-    setInfoWindow(event){
+    setInfoWindow(event) {
         this.setState({
             infoWindow: new google.maps.InfoWindow()
         })
     }
 
-    setLatLngBounds(event){
+    setLatLngBounds(event) {
         this.setState({
             latlngbounds: new google.maps.LatLngBounds()
         })
     }
 
-    setDirectionsService(event){
+    setDirectionsService(event) {
         this.setState({
             directionsService: new google.maps.DirectionsService()
         })
     }
 
-    setMapView(event){
+    setMapView(event) {
         this.setState({
             map: new google.maps.Map(document.getElementById('map'), {
-                zoom:13,
-                center: {lat:-3.71839,lng: -38.5267},
+                zoom: 13,
+                center: { lat: -3.71839, lng: -38.5267 },
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             })
         })
     }
 
 
-    setMakers(geocoder, address, name){
+    setMakers(geocoder, address, name) {
         //let geocoder = new google.maps.Geocoder(); 
-        geocoder.geocode({ 'address': address },(results, status)=>{
+        geocoder.geocode({ 'address': address }, (results, status) => {
             if (status === 'OK') {
-                
+
                 let marker = this.state.markers;
-                
+
                 marker.push(new google.maps.Marker({
                     map: this.state.map,
                     label: this.state.marker_number.toString(),
                     position: results[0].geometry.location
                 }))
-                
+
                 this.setState({
                     markers: marker,
                     marker_number: this.state.marker_number + 1
@@ -76,15 +77,15 @@ export default class MapLoader extends React.Component{
         });
     }
 
-    
-    setDirectionsRenderer(){
+
+    setDirectionsRenderer() {
         this.setState({
             directionsDisplay: new google.maps.DirectionsRenderer({ 'draggable': true })
         })
     }
 
-    cleanMarkers(){
-    
+    cleanMarkers() {
+
         for (var i = 0; i < this.state.markers.length; i++) {
             this.state.markers[i].setMap(null);
         }
@@ -92,18 +93,26 @@ export default class MapLoader extends React.Component{
         this.setState({
             markers: []
         })
-    
+
     }
 
-    componentDidMount(){
+    componentDidMount() {
+
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
         
-        if (typeof (google) != "undefined") {
+    }
+
+    loadMapsLib(){
+        if(typeof (google) != "undefined" && !this.state.map_loaded){
             
-            //Esperando o mapa carregar
+            console.log('Mapa carregado...')
+            
             this.setState({
-                map_loader: true
+                map_loaded: true
             })
-            
+
             this.setInfoWindow();
 
             this.setLatLngBounds();
@@ -116,26 +125,13 @@ export default class MapLoader extends React.Component{
         }
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot){
-        if(typeof (google) != "undefined"){
-            console.log('Google maps loaded...')
-        }
-    }
+    render() {
 
-    render(){
-        if(!this.state.map_loader){
-            return(
-                <div><h4>Mapa carregando...</h4></div>
-            )
-        }else{
-            return(
+        return (
             <div>
-                <Maps></Maps>
+                <Maps load={()=>{ this.loadMapsLib() }}></Maps>
                <div id="map"></div>
             </div>
         )
-        
-        }
-        
     }
 }
